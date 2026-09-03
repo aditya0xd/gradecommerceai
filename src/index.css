@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   /* Primary Color Scale (Red-based, matching #9E1B1B and #C22525) */
   --color-primary-50: #fdf2f2;
@@ -47,26 +49,19 @@
   --color-violet-600: #7C3AED;  /* AI & ML bg */
   --color-cyan-500: #06B6D4;    /* Mobile App */
   --color-red-500: #EF4444;     /* Cybersecurity */
+
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface2: var(--surface2);
+  --color-text: var(--text);
+  --color-text2: var(--text2);
+  --color-border: var(--border);
+  --color-border2: var(--border2);
 }
 
 /* Global Variables using our new theme colors */
 :root {
-  --bg: var(--color-secondary-950);
-  --surface: #121826; /* Custom dark surface */
-  --surface2: #1A2035; /* Custom dark surface 2 */
-  --text: var(--color-secondary-50);
-  --text2: var(--color-secondary-400);
-  --border: var(--color-secondary-800);
-  --border2: var(--color-secondary-700);
-  --primary: var(--color-primary-700);
-  --primary-l: var(--color-primary-600);
-  --accent: var(--color-accent-600);
-  --grad: linear-gradient(135deg, var(--color-primary-700), var(--color-accent-600));
-  --grad2: linear-gradient(135deg, var(--color-primary-700), #B91C1C, var(--color-accent-600));
-  --glow: 0 0 60px rgba(158, 27, 27, .15);
-}
-
-.light {
+  color-scheme: light;
   --bg: #ffffff;
   --surface: var(--color-secondary-50);
   --surface2: var(--color-secondary-100);
@@ -74,7 +69,24 @@
   --text2: var(--color-secondary-500);
   --border: var(--color-secondary-200);
   --border2: var(--color-secondary-300);
+  --primary: var(--color-primary-700);
+  --primary-l: var(--color-primary-600);
+  --accent: var(--color-accent-600);
+  --grad: linear-gradient(135deg, var(--color-primary-700), var(--color-accent-600));
+  --grad2: linear-gradient(135deg, var(--color-primary-700), #B91C1C, var(--color-accent-600));
   --glow: 0 0 60px rgba(158, 27, 27, .08);
+}
+
+.dark {
+  color-scheme: dark;
+  --bg: var(--color-secondary-950);
+  --surface: #121826;
+  --surface2: #1A2035;
+  --text: var(--color-secondary-50);
+  --text2: var(--color-secondary-400);
+  --border: var(--color-secondary-800);
+  --border2: var(--color-secondary-700);
+  --glow: 0 0 60px rgba(158, 27, 27, .15);
 }
 
 body {
