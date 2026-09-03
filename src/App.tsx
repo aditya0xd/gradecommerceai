@@ -1,10 +1,15 @@
-import "./App.css";
+import { Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar/Navbar';
+import Hero from './components/Hero/Hero';
 
 function App() {
   return (
-    <div className="text-center text-3xl font-bold">
-      Ganesh build a React app with Vite for gradcommerce
-    </div>
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Hero />} />
+      </Routes>
+    </>
   );
 }
 

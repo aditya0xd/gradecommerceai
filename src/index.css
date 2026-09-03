@@ -1,1 +1,84 @@
 @import "tailwindcss";
+
+@theme {
+  /* Primary Color Scale (Red-based, matching #9E1B1B and #C22525) */
+  --color-primary-50: #fdf2f2;
+  --color-primary-100: #fbe5e5;
+  --color-primary-200: #f6caca;
+  --color-primary-300: #efa1a1;
+  --color-primary-400: #e46b6b;
+  --color-primary-500: #d63d3d;
+  --color-primary-600: #C22525; /* primary-l */
+  --color-primary-700: #9E1B1B; /* primary */
+  --color-primary-800: #841a1a;
+  --color-primary-900: #6d1b1b;
+  --color-primary-950: #3b0a0a;
+
+  /* Accent Color Scale (Rose-based, matching #E11D48) */
+  --color-accent-50: #fff1f2;
+  --color-accent-100: #ffe4e6;
+  --color-accent-200: #fecdd3;
+  --color-accent-300: #fda4af;
+  --color-accent-400: #fb7185;
+  --color-accent-500: #f43f5e;
+  --color-accent-600: #e11d48; /* accent */
+  --color-accent-700: #be123c;
+  --color-accent-800: #9f1239;
+  --color-accent-900: #881337;
+  --color-accent-950: #4c0519;
+
+  /* Secondary / Slate Color Scale (Used for bg, surfaces, text, borders) */
+  --color-secondary-50: #F8FAFC;
+  --color-secondary-100: #F1F5F9;
+  --color-secondary-200: #E2E8F0;
+  --color-secondary-300: #CBD5E1;
+  --color-secondary-400: #94A3B8;
+  --color-secondary-500: #64748B;
+  --color-secondary-600: #475569;
+  --color-secondary-700: #334155;
+  --color-secondary-800: #1E293B;
+  --color-secondary-900: #0F172A;
+  --color-secondary-950: #0B0F19;
+
+  /* Additional Service/Tech Colors Used in Design */
+  --color-emerald-500: #10B981; /* Cloud/DevOps */
+  --color-amber-500: #F59E0B;   /* UI/UX Design */
+  --color-violet-400: #A78BFA;  /* AI & ML */
+  --color-violet-600: #7C3AED;  /* AI & ML bg */
+  --color-cyan-500: #06B6D4;    /* Mobile App */
+  --color-red-500: #EF4444;     /* Cybersecurity */
+}
+
+/* Global Variables using our new theme colors */
+:root {
+  --bg: var(--color-secondary-950);
+  --surface: #121826; /* Custom dark surface */
+  --surface2: #1A2035; /* Custom dark surface 2 */
+  --text: var(--color-secondary-50);
+  --text2: var(--color-secondary-400);
+  --border: var(--color-secondary-800);
+  --border2: var(--color-secondary-700);
+  --primary: var(--color-primary-700);
+  --primary-l: var(--color-primary-600);
+  --accent: var(--color-accent-600);
+  --grad: linear-gradient(135deg, var(--color-primary-700), var(--color-accent-600));
+  --grad2: linear-gradient(135deg, var(--color-primary-700), #B91C1C, var(--color-accent-600));
+  --glow: 0 0 60px rgba(158, 27, 27, .15);
+}
+
+.light {
+  --bg: #ffffff;
+  --surface: var(--color-secondary-50);
+  --surface2: var(--color-secondary-100);
+  --text: var(--color-secondary-900);
+  --text2: var(--color-secondary-500);
+  --border: var(--color-secondary-200);
+  --border2: var(--color-secondary-300);
+  --glow: 0 0 60px rgba(158, 27, 27, .08);
+}
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+}
