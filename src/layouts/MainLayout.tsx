@@ -2,6 +2,7 @@ import { Suspense, useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer";
+import ScrollProgress from "../components/ScrollProgress";
 
 const MainLayout = () => {
   const { hash, pathname } = useLocation();
@@ -17,7 +18,8 @@ const MainLayout = () => {
   }, [hash, pathname]);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen relative">
+      <ScrollProgress />
       <Navbar />
       <main className="flex-grow">
         <Suspense fallback={<div>Loading...</div>}>

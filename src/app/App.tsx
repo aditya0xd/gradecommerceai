@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import Navbar from "../components/Navbar/Navbar";
-import Hero from "../pages/Home";
+import Home from "../pages/Home";
 
 function App() {
   return (
@@ -8,7 +8,7 @@ function App() {
       <Navbar />
       <main className="flex-grow isolate">
         <Routes>
-          <Route path="/" element={<Hero />} />
+          <Route path="/" element={<Home />} />
         </Routes>
       </main>
     </div>

@@ -1,7 +1,13 @@
-import React from "react";
+import SolutionsContent from "../components/Solutions/SolutionsContent";
+import TechStackContent from "../components/TechStack/TechStackContent";
 
 const Solutions = () => {
-  return <div>Solutions</div>;
+  return (
+    <>
+      <SolutionsContent />
+      <TechStackContent />
+    </>
+  );
 };
 
 export default Solutions;
