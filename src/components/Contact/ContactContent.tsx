@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Send, ArrowRight, MapPin, Mail, Phone, Clock, Calendar, Loader2 } from "lucide-react";
+import { Send, ArrowRight, MapPin, Mail, Phone, Clock, Loader2 } from "lucide-react";
 import { OFFICES } from "./contact.constants";
 import { useState } from "react";
 
@@ -11,7 +11,6 @@ const ContactContent = () => {
     email: "",
     company: "",
     service: "",
-    budget: "",
     message: ""
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -29,15 +28,45 @@ const ContactContent = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (validateForm()) {
-      setIsSubmitting(true);
-      // Simulate API call
-      setTimeout(() => {
-        setIsSubmitting(false);
+    if (!validateForm()) return;
+
+    setIsSubmitting(true);
+    const accessKey = import.meta.env.VITE_WEB3FORMS_KEY || "7d5f7a70-1e85-43f0-a837-2d3e4616a727";
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: accessKey,
+          name: formData.name,
+          email: formData.email,
+          company: formData.company || "Not provided",
+          service: formData.service || "General Inquiry",
+          message: formData.message,
+          from_name: formData.name,
+          subject: `New Contact Request from ${formData.name} - Grad Commerce AI`,
+        }),
+      });
+
+      const data = await response.json();
+      if (data.success) {
         setIsSuccess(true);
-      }, 1500);
+        setFormData({ name: "", email: "", company: "", service: "", message: "" });
+        setErrors({});
+      } else {
+        setErrors({ general: data.message || "Failed to send message. Please try again." });
+      }
+    } catch (err) {
+      console.error(err);
+      setErrors({ general: "Network error. Please try again later." });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -94,6 +123,7 @@ const ContactContent = () => {
                   </label>
                   <input
                     type="text"
+                    name="name"
                     className={`w-full p-3 bg-surface2 border rounded-xl text-text text-[14px] outline-none transition-all duration-200 focus:shadow-[0_0_0_3px_rgba(158,27,27,0.15)] ${
                       errors.name ? "border-accent-600 focus:border-accent-600" : "border-border focus:border-primary-600"
                     }`}
@@ -111,6 +141,7 @@ const ContactContent = () => {
                   </label>
                   <input
                     type="email"
+                    name="email"
                     className={`w-full p-3 bg-surface2 border rounded-xl text-text text-[14px] outline-none transition-all duration-200 focus:shadow-[0_0_0_3px_rgba(158,27,27,0.15)] ${
                       errors.email ? "border-accent-600 focus:border-accent-600" : "border-border focus:border-primary-600"
                     }`}
@@ -124,25 +155,26 @@ const ContactContent = () => {
                 </div>
               </div>
 
-              <div className="mb-4">
-                <label className="block text-[13px] font-semibold mb-1.5 text-text2">
-                  Company
-                </label>
-                <input
-                  type="text"
-                  className="w-full p-3 bg-surface2 border border-border rounded-xl text-text text-[14px] outline-none transition-all duration-200 focus:border-primary-600 focus:shadow-[0_0_0_3px_rgba(158,27,27,0.15)]"
-                  placeholder="Acme Inc."
-                  value={formData.company}
-                  onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                />
-              </div>
-
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label className="block text-[13px] font-semibold mb-1.5 text-text2">
+                    Company
+                  </label>
+                  <input
+                    type="text"
+                    name="company"
+                    className="w-full p-3 bg-surface2 border border-border rounded-xl text-text text-[14px] outline-none transition-all duration-200 focus:border-primary-600 focus:shadow-[0_0_0_3px_rgba(158,27,27,0.15)]"
+                    placeholder="Acme Inc."
+                    value={formData.company}
+                    onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                  />
+                </div>
                 <div>
                   <label className="block text-[13px] font-semibold mb-1.5 text-text2">
                     Service
                   </label>
                   <select
+                    name="service"
                     className="w-full p-3 bg-surface2 border border-border rounded-xl text-text text-[14px] outline-none transition-all duration-200 focus:border-primary-600 focus:shadow-[0_0_0_3px_rgba(158,27,27,0.15)] cursor-pointer appearance-none"
                     value={formData.service}
                     onChange={(e) => setFormData({ ...formData, service: e.target.value })}
@@ -156,22 +188,6 @@ const ContactContent = () => {
                     <option value="Custom Software">Custom Software</option>
                   </select>
                 </div>
-                <div>
-                  <label className="block text-[13px] font-semibold mb-1.5 text-text2">
-                    Budget
-                  </label>
-                  <select
-                    className="w-full p-3 bg-surface2 border border-border rounded-xl text-text text-[14px] outline-none transition-all duration-200 focus:border-primary-600 focus:shadow-[0_0_0_3px_rgba(158,27,27,0.15)] cursor-pointer appearance-none"
-                    value={formData.budget}
-                    onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-                  >
-                    <option value="">Select</option>
-                    <option value="$10K-$25K">$10K-$25K</option>
-                    <option value="$25K-$75K">$25K-$75K</option>
-                    <option value="$75K-$150K">$75K-$150K</option>
-                    <option value="$150K+">$150K+</option>
-                  </select>
-                </div>
               </div>
 
               <div className="mb-6">
@@ -179,6 +195,7 @@ const ContactContent = () => {
                   Project Details *
                 </label>
                 <textarea
+                  name="message"
                   className={`w-full p-3 bg-surface2 border rounded-xl text-text text-[14px] outline-none transition-all duration-200 resize-y min-h-[100px] focus:shadow-[0_0_0_3px_rgba(158,27,27,0.15)] ${
                     errors.message ? "border-accent-600 focus:border-accent-600" : "border-border focus:border-primary-600"
                   }`}
@@ -192,22 +209,27 @@ const ContactContent = () => {
               </div>
 
               {!isSuccess ? (
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full inline-flex items-center justify-center gap-2 p-3.5 rounded-xl text-[15px] font-semibold bg-gradient-to-br from-primary-700 to-accent-600 text-white border-none cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(158,27,27,0.4)] disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="w-[18px] h-[18px] animate-spin" />
-                      Sending...
-                    </>
-                  ) : (
-                    <>
-                      Send Message <ArrowRight className="w-[18px] h-[18px]" />
-                    </>
+                <>
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full inline-flex items-center justify-center gap-2 p-3.5 rounded-xl text-[15px] font-semibold bg-gradient-to-br from-primary-700 to-accent-600 text-white border-none cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(158,27,27,0.4)] disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-[18px] h-[18px] animate-spin" />
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        Send Message <ArrowRight className="w-[18px] h-[18px]" />
+                      </>
+                    )}
+                  </button>
+                  {errors.general && (
+                    <p className="text-accent-600 text-[13px] text-center mt-2">{errors.general}</p>
                   )}
-                </button>
+                </>
               ) : (
                 <div className="text-center p-5 bg-[#10B981]/10 border border-[#10B981]/20 rounded-xl mt-4">
                   <p className="font-semibold text-[#10B981]">Message sent successfully!</p>
@@ -250,18 +272,18 @@ const ContactContent = () => {
               <h3 className="text-[16px] font-bold mb-4 text-text">Quick Contact</h3>
               <div className="flex flex-col gap-3.5">
                 <a
-                  href="mailto:hello@gradcommerceai.com"
+                  href="mailto:gradcommerceai@gmail.com"
                   className="flex items-center gap-3 text-text2 text-[14px] transition-colors duration-200 hover:text-text group"
                 >
                   <Mail className="w-[18px] h-[18px] text-primary-600 transition-colors group-hover:text-primary-400" />
-                  hello@gradcommerceai.com
+                  gradcommerceai@gmail.com
                 </a>
                 <a
-                  href="tel:+918143676779"
+                  href="tel:+919014392895"
                   className="flex items-center gap-3 text-text2 text-[14px] transition-colors duration-200 hover:text-text group"
                 >
                   <Phone className="w-[18px] h-[18px] text-primary-600 transition-colors group-hover:text-primary-400" />
-                  +91 8143676779
+                  +91 9014392895
                 </a>
                 <div className="flex items-center gap-3 text-text2 text-[14px]">
                   <Clock className="w-[18px] h-[18px] text-primary-600" />
@@ -270,7 +292,7 @@ const ContactContent = () => {
               </div>
             </motion.div>
 
-            <motion.div
+            {/* <motion.div
               initial={{ opacity: 0, y: 28 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -287,7 +309,7 @@ const ContactContent = () => {
               >
                 <Calendar className="w-4 h-4" /> Book on Calendly
               </a>
-            </motion.div>
+            </motion.div> */}
           </div>
         </div>
       </div>

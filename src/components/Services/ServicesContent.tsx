@@ -71,7 +71,15 @@ const ServicesContent = () => {
                   {service.desc}
                 </p>
                 <Link
-                  to="/contact"
+                  to="/#contact"
+                  onClick={(e) => {
+                    const el = document.getElementById("contact");
+                    if (el) {
+                      e.preventDefault();
+                      el.scrollIntoView({ behavior: "smooth" });
+                      window.history.pushState(null, "", "/#contact");
+                    }
+                  }}
                   className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-text2 transition-all hover:gap-2.5 group-hover:text-primary-600"
                   style={{ color: service.color }}
                 >

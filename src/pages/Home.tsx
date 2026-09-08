@@ -5,6 +5,7 @@ import IndustriesContent from "../components/Industries/IndustriesContent";
 import TestimonialsContent from "../components/Testimonials/TestimonialsContent";
 import FAQsContent from "../components/FAQs/FAQsContent";
 import ContactContent from "../components/Contact/ContactContent";
+import ServicesContent from "../components/Services/ServicesContent";
 
 const Home = () => {
   return (
@@ -13,6 +14,7 @@ const Home = () => {
       <WhyUsContent />
       <ProcessContent />
       <IndustriesContent />
+      <ServicesContent />
       <TestimonialsContent />
       <FAQsContent />
       <ContactContent />

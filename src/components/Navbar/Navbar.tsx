@@ -1,5 +1,6 @@
 import { Menu } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import MobileMenu from "./MobileMenu";
 import NavBrand from "./NavBrand";
 import NavLinks from "./NavLinks";
@@ -8,6 +9,11 @@ import ThemeToggle from "./ThemeToggle";
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname, location.hash]);
 
   useEffect(() => {
     const handleScroll = () => {

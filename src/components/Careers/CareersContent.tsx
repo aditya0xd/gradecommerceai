@@ -146,7 +146,7 @@ const CareersContent = () => {
                 </div>
                 <div>
                   <Link
-                    to="/contact"
+                    to="/#contact"
                     className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-[13px] font-semibold bg-gradient-to-br from-primary-700 to-accent-600 text-white border-none transition-all hover:-translate-y-0.5 shadow-lg shadow-primary-700/20 hover:shadow-primary-700/40"
                   >
                     Apply Now <ArrowRight className="w-3.5 h-3.5" />

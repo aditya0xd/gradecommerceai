@@ -1,4 +1,4 @@
-import { serviceLinks } from "./navbar.constants";
+import { SERVICES } from "../Services/services.constants";
 
 type ServicesMegaMenuProps = {
   isOpen: boolean;
@@ -14,7 +14,7 @@ const ServicesMegaMenu = ({ isOpen }: ServicesMegaMenuProps) => {
           : "invisible translate-y-2 opacity-0"
       }`}
     >
-      {serviceLinks.map((item) => (
+      {SERVICES.map((item) => (
         <div
           key={item.title}
           className="flex items-start gap-2.5 p-2.5 rounded-xl transition-colors hover:bg-surface2 cursor-pointer"
@@ -24,7 +24,7 @@ const ServicesMegaMenu = ({ isOpen }: ServicesMegaMenuProps) => {
           </div>
           <div>
             <p className="text-[13px] font-semibold text-text">{item.title}</p>
-            <p className="text-[11px] text-text2 mt-0.5">{item.desc}</p>
+            <p className="text-[11px] text-text2 mt-0.5 line-clamp-2">{item.desc}</p>
           </div>
         </div>
       ))}

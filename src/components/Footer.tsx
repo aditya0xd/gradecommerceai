@@ -1,17 +1,24 @@
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowUpRight, MapPin, Mail, Phone, Clock } from "lucide-react";
 import { FOOTER_DATA, SOCIALS } from "./footer.constants";
 
 const Footer = () => {
   return (
-    <footer className="pt-20 px-6 pb-8 bg-bg border-t border-border">
-      <div className="max-w-[1280px] mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr] gap-10 mb-16">
+    <footer className="pt-20 px-6 pb-10 bg-bg border-t border-border relative overflow-hidden">
+      {/* Subtle background glow effect */}
+      <div className="absolute top-0 left-1/4 -translate-y-1/2 w-96 h-48 bg-primary-700/5 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="max-w-[1280px] mx-auto relative z-10">
+        {/* Main Footer Grid - 5 Columns */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-[1.3fr_0.85fr_0.85fr_1fr_1.3fr] gap-10 lg:gap-8 mb-16">
           
-          {/* Brand Column */}
-          <div>
-            <Link to="/" className="flex items-center gap-2.5 mb-4 text-text hover:opacity-90 transition-opacity">
-              <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
+          {/* 1. Brand Column */}
+          <div className="flex flex-col">
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2.5 mb-4 text-text hover:opacity-90 transition-opacity w-fit"
+            >
+              <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
                 <svg
                   viewBox="0 0 100 100"
                   className="w-5 h-5"
@@ -58,114 +65,175 @@ const Footer = () => {
                 Grad Commerce AI
               </span>
             </Link>
-            <p className="text-text2 text-[14px] leading-[1.7] mb-5 max-w-[320px]">
+
+            <p className="text-text2 text-[14px] leading-[1.7] mb-5 max-w-[340px]">
               {FOOTER_DATA.brand.desc}
             </p>
-            <div className="flex gap-2">
-              <input
-                type="email"
-                placeholder="Your email"
-                className="flex-1 px-3.5 py-2.5 bg-surface2 border border-border rounded-lg text-text text-[13px] outline-none transition-colors focus:border-primary-700 placeholder:text-text2"
-              />
-              <button
-                aria-label="Subscribe"
-                className="flex-shrink-0 px-4 py-2.5 bg-gradient-to-br from-primary-700 to-accent-600 text-white rounded-lg transition-transform hover:-translate-y-0.5"
-              >
-                <ArrowRight className="w-4 h-4" />
-              </button>
+
+            {/* Status Pill */}
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface2 border border-border text-[12px] text-text2 mb-6 w-fit">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+              </span>
+              <span>Available for new projects</span>
+            </div>
+
+            {/* Social Icons in Brand Column */}
+            <div className="flex items-center gap-2.5">
+              {SOCIALS.map((social) => {
+                const Icon = social.icon;
+                return (
+                  <a
+                    key={social.name}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.name}
+                    className="w-9 h-9 rounded-xl bg-surface2 border border-border flex items-center justify-center text-text2 transition-all duration-200 hover:text-text hover:border-primary-700 hover:bg-primary-700/10 hover:-translate-y-0.5"
+                  >
+                    <Icon className="w-4 h-4" />
+                  </a>
+                );
+              })}
             </div>
           </div>
 
-          {/* Services Column */}
+          {/* 2. Services Column */}
           <div>
-            <h4 className="text-[14px] font-bold mb-4 text-text">
+            <h4 className="text-[13px] font-bold uppercase tracking-[0.06em] mb-4 text-text">
               {FOOTER_DATA.services.title}
             </h4>
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-1">
               {FOOTER_DATA.services.links.map((link) => (
                 <Link
-                  key={link}
-                  to={`/${link.toLowerCase().replace(/ /g, "-")}`}
-                  className="text-[14px] text-text2 hover:text-text transition-colors py-1 block"
+                  key={link.label}
+                  to={link.to}
+                  className="text-[14px] text-text2 hover:text-text hover:translate-x-1 transition-all duration-200 py-1.5 inline-flex items-center group w-fit"
                 >
-                  {link}
+                  <span className="transition-colors group-hover:text-primary-600">
+                    {link.label}
+                  </span>
                 </Link>
               ))}
             </div>
           </div>
 
-          {/* Resources Column */}
+          {/* 3. Company Column */}
           <div>
-            <h4 className="text-[14px] font-bold mb-4 text-text">
-              {FOOTER_DATA.resources.title}
-            </h4>
-            <div className="flex flex-col gap-1.5">
-              {FOOTER_DATA.resources.links.map((link) => (
-                <Link
-                  key={link}
-                  to={`/${link.toLowerCase().replace(/ /g, "-")}`}
-                  className="text-[14px] text-text2 hover:text-text transition-colors py-1 block"
-                >
-                  {link}
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* Legal/Company Column */}
-          <div>
-            <h4 className="text-[14px] font-bold mb-4 text-text">
+            <h4 className="text-[13px] font-bold uppercase tracking-[0.06em] mb-4 text-text">
               {FOOTER_DATA.company.title}
             </h4>
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-1">
               {FOOTER_DATA.company.links.map((link) => (
                 <Link
-                  key={link}
-                  to={`/${link.toLowerCase().replace(/ /g, "-")}`}
-                  className="text-[14px] text-text2 hover:text-text transition-colors py-1 block"
+                  key={link.label}
+                  to={link.to}
+                  className="text-[14px] text-text2 hover:text-text hover:translate-x-1 transition-all duration-200 py-1.5 inline-flex items-center group w-fit"
                 >
-                  {link}
+                  <span className="transition-colors group-hover:text-primary-600">
+                    {link.label}
+                  </span>
                 </Link>
               ))}
+            </div>
+          </div>
+
+          {/* 4. Explore Column (Option 1 - On-Page Sections) */}
+          <div>
+            <h4 className="text-[13px] font-bold uppercase tracking-[0.06em] mb-4 text-text">
+              {FOOTER_DATA.explore.title}
+            </h4>
+            <div className="flex flex-col gap-1">
+              {FOOTER_DATA.explore.links.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.to}
+                  onClick={(e) => {
+                    if (link.to.startsWith("/#")) {
+                      const targetId = link.to.replace("/#", "");
+                      const element = document.getElementById(targetId);
+                      if (element) {
+                        e.preventDefault();
+                        element.scrollIntoView({ behavior: "smooth" });
+                        window.history.pushState(null, "", `/#${targetId}`);
+                      }
+                    }
+                  }}
+                  className="text-[14px] text-text2 hover:text-text hover:translate-x-1 transition-all duration-200 py-1.5 inline-flex items-center group w-fit cursor-pointer"
+                >
+                  <span className="transition-colors group-hover:text-primary-600">
+                    {link.label}
+                  </span>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* 5. Headquarters / Contact Column (Option 2 - Contact Details) */}
+          <div>
+            <h4 className="text-[13px] font-bold uppercase tracking-[0.06em] mb-4 text-text">
+              {FOOTER_DATA.contact.title}
+            </h4>
+            <div className="flex flex-col gap-3 text-[13px] text-text2">
+              <div className="flex items-start gap-2.5">
+                <MapPin className="w-4 h-4 text-primary-600 shrink-0 mt-0.5" />
+                <span className="leading-[1.6]">{FOOTER_DATA.contact.address}</span>
+              </div>
+              <a
+                href={`mailto:${FOOTER_DATA.contact.email}`}
+                className="flex items-center gap-2.5 hover:text-text transition-colors group"
+              >
+                <Mail className="w-4 h-4 text-primary-600 shrink-0 group-hover:text-primary-500" />
+                <span className="group-hover:text-primary-600 transition-colors break-all">
+                  {FOOTER_DATA.contact.email}
+                </span>
+              </a>
+              <a
+                href={`tel:${FOOTER_DATA.contact.phone.replace(/\s+/g, "")}`}
+                className="flex items-center gap-2.5 hover:text-text transition-colors group"
+              >
+                <Phone className="w-4 h-4 text-primary-600 shrink-0 group-hover:text-primary-500" />
+                <span className="group-hover:text-primary-600 transition-colors">
+                  {FOOTER_DATA.contact.phone}
+                </span>
+              </a>
+              <div className="flex items-center gap-2.5">
+                <Clock className="w-4 h-4 text-primary-600 shrink-0" />
+                <span>{FOOTER_DATA.contact.hours}</span>
+              </div>
+            </div>
+
+            {/* Quick Contact Link CTA */}
+            <div className="mt-5 pt-4 border-t border-border/60">
+              <a
+                href="#contact"
+                onClick={(e) => {
+                  const element = document.getElementById("contact");
+                  if (element) {
+                    e.preventDefault();
+                    element.scrollIntoView({ behavior: "smooth" });
+                    window.history.pushState(null, "", "#contact");
+                  }
+                }}
+                className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-primary-600 hover:text-primary-500 transition-colors group cursor-pointer"
+              >
+                <span>Have questions? Let's talk</span>
+                <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </a>
             </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-border pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 flex-wrap">
-          <p className="text-text2 text-[13px]">
-            &copy; {new Date().getFullYear()} GradCommerceAi. All rights reserved.
+        <div className="border-t border-border pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[13px] text-text2">
+          <p>
+            &copy; {new Date().getFullYear()} Grad Commerce AI. All rights reserved.
           </p>
-          
-          <div className="flex gap-5">
-            <Link to="/privacy" className="text-text2 hover:text-text text-[13px] transition-colors">
-              Privacy Policy
-            </Link>
-            <Link to="/terms" className="text-text2 hover:text-text text-[13px] transition-colors">
-              Terms of Service
-            </Link>
-            <Link to="/cookies" className="text-text2 hover:text-text text-[13px] transition-colors">
-              Cookies
-            </Link>
-          </div>
 
-          <div className="flex gap-3">
-            {SOCIALS.map((social) => {
-              const Icon = social.icon;
-              return (
-                <a
-                  key={social.name}
-                  href={social.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.name}
-                  className="w-9 h-9 rounded-lg border border-border flex items-center justify-center text-text2 transition-all hover:border-primary-700 hover:text-primary-600"
-                >
-                  <Icon className="w-4 h-4" />
-                </a>
-              );
-            })}
-          </div>
+          <p className="text-text2/70 text-[12px]">
+            Engineered with precision for modern commerce & enterprise AI.
+          </p>
         </div>
       </div>
     </footer>
@@ -173,3 +241,5 @@ const Footer = () => {
 };
 
 export default Footer;
+
+
