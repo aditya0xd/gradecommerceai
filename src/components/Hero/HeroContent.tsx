@@ -1,5 +1,6 @@
 import { ArrowRight, PlayCircle } from "lucide-react";
 import { motion, type Variants } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -60,16 +61,12 @@ const HeroContent = () => {
           Start Your Project <ArrowRight className="w-[18px] h-[18px]" />
         </a>
 
-        <button
-          onClick={() =>
-            document
-              .getElementById("portfolio")
-              ?.scrollIntoView({ behavior: "smooth" })
-          }
-          className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl text-[15px] font-semibold bg-transparent text-text border border-border2 cursor-pointer transition-all hover:-translate-y-0.5 hover:border-primary-700 hover:bg-primary-700/5"
+        <Link
+          to="/portfolio"
+          className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl text-[15px] font-semibold bg-transparent text-text border border-border2 cursor-pointer transition-all hover:-translate-y-0.5 hover:border-primary-700 hover:bg-primary-700/5 no-underline"
         >
           <PlayCircle className="w-[18px] h-[18px]" /> View Our Work
-        </button>
+        </Link>
       </motion.div>
     </motion.div>
   );
